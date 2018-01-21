@@ -48,7 +48,9 @@ class CryptoFiat():
         return self._expiration - time.time() <= 0
 
 
-class CryptoToFiatConverter():
+class CryptoToFiatConverter(object):
+    __instance = None
+
     # Constants
     SUPPORTED_FIAT = [
         "AUD", "BRL", "CAD", "CHF", "CLP", "CNY", "CZK", "DKK",
@@ -56,6 +58,11 @@ class CryptoToFiatConverter():
         "KRW", "MXN", "MYR", "NOK", "NZD", "PHP", "PKR", "PLN",
         "RUB", "SEK", "SGD", "THB", "TRY", "TWD", "ZAR", "USD"
     ]
+
+    def __new__(cls):
+        if CryptoToFiatConverter.__instance is None:
+            CryptoToFiatConverter.__instance = object.__new__(cls)
+        return CryptoToFiatConverter.__instance
 
     def __init__(self) -> None:
         try:
